@@ -32,33 +32,33 @@ verified without access to the raw data. Set the path variables at the top of ea
 
 | Order | Script | Purpose | Key outputs |
 |---|---|---|---|
-| 1 | `CHARLS_HGI_第一步_数据提取与快速筛查.R` | Variable extraction from raw CHARLS; baseline analytic set; HGI derivation | `analytic_hgi_baseline.csv`, `analytic_delta_hgi.csv` |
-| 2 | `CHARLS_HGI_W6_第一步_数据扩展.R` | Extension to Wave 6 (2023) follow-up; event-time rules fu_v2 / fu_v2b | `analytic_hgi_baseline_w6.csv` |
-| 3 | `CHARLS_HGI_W6_第二步_正式分析.R` | Main analysis: Cox M1–M3, prespecified HbA1c key test, RCS, Fine–Gray, subgroups | main-set estimates (Table 2; Figs 2–3) |
-| 4 | `CHARLS_HGI_第四步_敏感性分析S1-S6.R` | Prespecified sensitivity analyses S1–S6 (incl. multiple imputation, m = 20) | Fig. S2b, Table S8 |
-| 5 | `CHARLS_HGI_2015内部验证.R` | 2015 landmark internal-consistency set (independent blood batch, post-2015 window) | landmark estimates (Table 2) |
-| 6 | `CHARLS_HGI_W6_第六步_图表补丁与表_20261119.R` | Table/figure numeric patches | — |
-| 7 | `CHARLS_HGI_W6_第七步_HGI_SHR互调_20261119.R` | Mutual HGI × SHR adjustment (S7) | Table S8 |
-| 8 | `CHARLS_HGI_W6_第八步_Evalue与区间删失_20261119.R` | E-values; interval-censoring refits (S8) | Table S8 |
-| 9 | `CHARLS_HGI_W6_第九步_修稿补充分析_20261120.R` | Post hoc analyses P-series (kidney function, early events, etc.) | Table S8 |
-| 10 | `CHARLS_HGI_W6_第十步_2015协变量重拟合与非糖尿病分析_20261120.R` | Landmark refit with 2015-measured covariates; non-diabetic layer | Tables S3, S8 |
-| 11 | `CHARLS_HGI_W6_第十一步_2015口径切换数值_20261120.R` | Definition-switch values (S11) | Table S8 |
-| 12 | `CHARLS_HGI_W6_第十二步_非糖尿病层调和与landmark扩展_20261120.R` | Non-diabetic reconciliation; landmark extensions (S12) | Table S8 |
-| 13 | `CHARLS_HGI_W6_第十三步_治疗分层与eGFR与早期事件_20261120.R` | Diabetes-treatment strata; eGFR; early-event exclusion | Table S8 |
-| 14 | `CHARLS_HGI_W6_第十四步_landmarkFG与绝对风险与Evalue与交互功效_20261121.R` | Landmark Fine–Gray; absolute risk (Table S5); E-values; interaction power (MDE 1.81) | Table S5, S8 |
-| 15 | `CHARLS_HGI_W6_第十五步_等价性验证与TyG互调_20261121.R` | Algebraic-equivalence verification (HGI+HbA1c ≡ FPG+HbA1c); TyG mutual adjustment; AIC ladder | Table S6 |
+| 1 | `CHARLS_HGI_S01_data_extraction_screening.R` | Variable extraction from raw CHARLS; baseline analytic set; HGI derivation | `analytic_hgi_baseline.csv`, `analytic_delta_hgi.csv` |
+| 2 | `CHARLS_HGI_W6_S01_data_extension.R` | Extension to Wave 6 (2023) follow-up; event-time rules fu_v2 / fu_v2b | `analytic_hgi_baseline_w6.csv` |
+| 3 | `CHARLS_HGI_W6_S02_main_analysis.R` | Main analysis: Cox M1–M3, prespecified HbA1c key test, RCS, Fine–Gray, subgroups | main-set estimates (Table 2; Figs 2–3) |
+| 4 | `CHARLS_HGI_S04_sensitivity_S1_S6.R` | Prespecified sensitivity analyses S1–S6 (incl. multiple imputation, m = 20) | Fig. S2b, Table S8 |
+| 5 | `CHARLS_HGI_2015_internal_validation.R` | 2015 landmark internal-consistency set (independent blood batch, post-2015 window) | landmark estimates (Table 2) |
+| 6 | `CHARLS_HGI_W6_S06_figure_table_patch_20261119.R` | Table/figure numeric patches | — |
+| 7 | `CHARLS_HGI_W6_S07_HGI_SHR_mutual_20261119.R` | Mutual HGI × SHR adjustment (S7) | Table S8 |
+| 8 | `CHARLS_HGI_W6_S08_Evalue_interval_censoring_20261119.R` | E-values; interval-censoring refits (S8) | Table S8 |
+| 9 | `CHARLS_HGI_W6_S09_revision_supplementary_20261120.R` | Post hoc analyses P-series (kidney function, early events, etc.) | Table S8 |
+| 10 | `CHARLS_HGI_W6_S10_2015_covariate_refit_nonDM_20261120.R` | Landmark refit with 2015-measured covariates; non-diabetic layer | Tables S3, S8 |
+| 11 | `CHARLS_HGI_W6_S11_2015_definition_switch_20261120.R` | Definition-switch values (S11) | Table S8 |
+| 12 | `CHARLS_HGI_W6_S12_nonDM_stratification_landmark_20261120.R` | Non-diabetic reconciliation; landmark extensions (S12) | Table S8 |
+| 13 | `CHARLS_HGI_W6_S13_treatment_strata_eGFR_early_20261120.R` | Diabetes-treatment strata; eGFR; early-event exclusion | Table S8 |
+| 14 | `CHARLS_HGI_W6_S14_landmark_FG_absolute_risk_Evalue_20261121.R` | Landmark Fine–Gray; absolute risk (Table S5); E-values; interaction power (MDE 1.81) | Table S5, S8 |
+| 15 | `CHARLS_HGI_W6_S15_equivalence_TyG_mutual_20261121.R` | Algebraic-equivalence verification (HGI+HbA1c ≡ FPG+HbA1c); TyG mutual adjustment; AIC ladder | Table S6 |
 
 ### 3.2 ELSA external evaluation (`R_scripts/elsa/`)
 
 | Order | Script | Purpose |
 |---|---|---|
-| 1 | `ELSA_第一步_构建分析集.R` | Build ELSA Wave 2 analytic set (fasting FPG + HbA1c, stroke-free, ≥ 1 follow-up) |
-| 2 | `ELSA_第二步_正式分析.R` | Cox ladder, key test, Fine–Gray, non-diabetic layer (Table 2; Fig. 2) |
-| 3 | `ELSA_第三步_合并基线.R` | Pooled Waves 2/4/6 stratified sensitivity analysis (Table S1) |
+| 1 | `ELSA_S01_build_analytic_set.R` | Build ELSA Wave 2 analytic set (fasting FPG + HbA1c, stroke-free, ≥ 1 follow-up) |
+| 2 | `ELSA_S02_main_analysis.R` | Cox ladder, key test, Fine–Gray, non-diabetic layer (Table 2; Fig. 2) |
+| 3 | `ELSA_S03_pooled_baseline.R` | Pooled Waves 2/4/6 stratified sensitivity analysis (Table S1) |
 
 ### 3.3 Cross-cohort meta-analysis (`R_scripts/meta/`)
 
-- `CHARLS_ELSA_跨队列合并.R`: fixed/random-effects pooling of the two independent sets
+- `CHARLS_ELSA_cross_cohort_meta.R`: fixed/random-effects pooling of the two independent sets
   (primary pooled estimate 1.363), the three sets, and the three non-diabetic sets (Fig. 2).
 
 ### 3.4 Figures and tables
