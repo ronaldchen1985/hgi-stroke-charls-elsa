@@ -26,6 +26,10 @@ fmt_np   <- function(x) sprintf("%d (%.1f)", sum(x == 1, na.rm = TRUE),
 fmt_mdiqr <- function(x, d = 2) sprintf("%s [%s, %s]", f2(median(x, na.rm = TRUE), d),
                                         f2(quantile(x, .25, na.rm = TRUE), d),
                                         f2(quantile(x, .75, na.rm = TRUE), d))
+# DRCP journal rule: report HbA1c in NGSP (%) AND IFCC (mmol/mol, no decimals)
+# conversion: mmol/mol = 10.93 * % - 23.5 (mean); SD scales by 10.93 only
+fmt_ifcc <- function(x) sprintf("%d (%d)", round(10.93 * mean(x, na.rm = TRUE) - 23.5),
+                                round(10.93 * sd(x, na.rm = TRUE)))
 smd_cont <- function(x, g) { x0 <- x[g == 0]; x1 <- x[g == 1]
   (mean(x1, na.rm = TRUE) - mean(x0, na.rm = TRUE)) /
     sqrt((sd(x1, na.rm = TRUE)^2 + sd(x0, na.rm = TRUE)^2) / 2) }
@@ -73,7 +77,7 @@ dd <- read.csv(file.path(FRZ, "data/charls/analytic_delta_hgi.csv"),
 dd <- dd %>%
   select(-any_of(intersect(cov_m3, setdiff(names(dd), "ID")))) %>%
   left_join(d %>% select(ID, stroke_w6, last_contact, w6_report_yr, w6_dxyear,
-                         all_of(cov_m3)), by = "ID") %>%
+                         death6, death_time, all_of(cov_m3)), by = "ID") %>%
   left_join(w3_bl, by = "ID") %>%
   filter(is.na(first_stroke_wave) | first_stroke_wave >= 4) %>%
   mutate(
@@ -129,6 +133,7 @@ rows_spec <- list(
   list("Fasting plasma glucose, mmol/L", "m",
        list(~ .x$glu / 18.0, ~ .x$glu3 / 18.0, ~ .x$fglu), 2),
   list("HbA1c, %", "m", list(~ .x$hba1c, ~ .x$hba1c3, ~ .x$hba1c), 2),
+  list("HbA1c, mmol/mol", "ifcc", list(~ .x$hba1c, ~ .x$hba1c3, ~ .x$hba1c)),
   list("Triglycerides, mmol/L", "m",
        list(~ .x$tg / 88.57, ~ .x$tg15 / 88.57, ~ .x$trig), 2),
   list("HDL cholesterol, mmol/L", "m",
@@ -138,7 +143,8 @@ rows_spec <- list(
   list("Diabetes, n (%)", "p", list(~ .x$dm, ~ .x$dm15, ~ .x$dm)),
   list("Dyslipidaemia, n (%)", "p", list(~ .x$dyslip, ~ .x$dyslip15, ~ .x$dyslip)),
   list("Heart disease, n (%)", "p", list(~ .x$heart, ~ .x$heart15, ~ .x$heart)),
-  list("HGIc", "m", list(~ .x$hgi, ~ .x$hgi_2015, ~ .x$hgi), 2)
+  list("HGIc", "m", list(~ .x$hgi, ~ .x$hgi_2015, ~ .x$hgi), 2),
+  list("Anaemia, n (%)d", "p", list(~ .x$anemia, NULL, NULL))
 )
 
 summ_one <- function(dat, sp, set_idx) {
@@ -152,6 +158,8 @@ summ_one <- function(dat, sp, set_idx) {
       f2(smd_cont(x, g), 2))
   } else if (typ == "p") {
     c(fmt_np(x), fmt_np(x[g == 0]), fmt_np(x[g == 1]), f2(smd_bin(x, g), 2))
+  } else if (typ == "ifcc") {
+    c(fmt_ifcc(x), fmt_ifcc(x[g == 0]), fmt_ifcc(x[g == 1]), "\u2014")
   } else {
     c(fmt_mdiqr(x, ddig), fmt_mdiqr(x[g == 0], ddig), fmt_mdiqr(x[g == 1], ddig),
       f2(smd_cont(x, g), 2))
@@ -195,7 +203,7 @@ hdr_vals <- list(
                mean(els$incident_stroke[els$hgi_hi == 1]) * 100)),
   list("Deaths, n",
        sum(c11$death6 == 1, na.rm = TRUE), "", "",
-       "\u2014", "", "",
+       sum(c15$death6 == 1 & (c15$death_time - 4) > 0, na.rm = TRUE), "", "",
        sum(els$died == TRUE, na.rm = TRUE), "", ""),
   list("Follow-up, median [IQR], years",
        miqr(c11$fu_v2), "", "", miqr(c15$t15), "", "", miqr(els$fu_years_total), "", ""),
