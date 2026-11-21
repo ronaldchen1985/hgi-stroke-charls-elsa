@@ -5,6 +5,7 @@
 # tighter vertical rhythm, exclusion labels closer to arrows, darker grey
 # v3.1: exclusion notes are now boxed (light fill + grey border), font 2.35mm,
 # arrow connectors point to box edge; long notes re-wrapped to fit the box
+# v3.2: panel tag chips removed -> plain bold letters, consistent with Figs 2-4
 # Output: Fig1_STROBE_v3.tiff (600 dpi, 183 mm) + pdf + alignment JSON
 ####################################################################################
 rm(list = ls()); gc()
@@ -74,12 +75,10 @@ flow_col <- function(tag, subtitle, stages, accent, fill, n_max) {
         annotate("text", x = ext$x[i], y = ext$y[i], label = ext$txt[i],
                  size = 2.35, colour = "grey20", family = "sans")
       }) } +
-    # panel tag chip + subtitle
-    annotate("rect", xmin = 0, xmax = 0.66, ymin = n_max * pitch + hh + 0.40,
-             ymax = n_max * pitch + hh + 1.06, fill = accent, colour = NA) +
-    annotate("text", x = 0.33, y = n_max * pitch + hh + 0.73, label = tag,
-             colour = "white", fontface = "bold", size = 3.4, family = "sans") +
-    annotate("text", x = 0.9, y = n_max * pitch + hh + 0.73, label = subtitle, hjust = 0,
+    # panel tag (plain bold, consistent with other figures) + subtitle
+    annotate("text", x = 0, y = n_max * pitch + hh + 0.73, label = tag, hjust = 0,
+             colour = "grey10", fontface = "bold", size = 3.2, family = "sans") +
+    annotate("text", x = 1.05, y = n_max * pitch + hh + 0.73, label = subtitle, hjust = 0,
              size = 2.5, colour = "grey15", fontface = "bold", family = "sans") +
     coord_cartesian(xlim = c(0, 17.4), ylim = c(0.3, n_max * pitch + hh + 1.2), clip = "off") +
     theme_void(base_family = "sans") +
