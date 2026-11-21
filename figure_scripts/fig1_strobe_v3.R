@@ -3,6 +3,8 @@
 # CHARLS 2011 discovery / CHARLS 2015 landmark / ELSA W2 external evaluation
 # v3 changes vs v2: larger exclusion labels (>=6pt), larger box text,
 # tighter vertical rhythm, exclusion labels closer to arrows, darker grey
+# v3.1: exclusion notes are now boxed (light fill + grey border), font 2.35mm,
+# arrow connectors point to box edge; long notes re-wrapped to fit the box
 # Output: Fig1_STROBE_v3.tiff (600 dpi, 183 mm) + pdf + alignment JSON
 ####################################################################################
 rm(list = ls()); gc()
@@ -17,17 +19,22 @@ flow_col <- function(tag, subtitle, stages, accent, fill, n_max) {
   d <- stages; d$y <- y
   is_event <- seq_len(k) == k
 
-  # exclusion labels in the gaps, with elbow connector（多行拆成独立行）
-  ex <- do.call(rbind, lapply(2:k, function(i) {
+  # exclusion notes: boxed labels in the gaps, arrow connector from stage box
+  ex_list <- lapply(2:k, function(i) {
     if (!nzchar(d$excl[i])) return(NULL)
     ls <- strsplit(d$excl[i], "\n", fixed = TRUE)[[1]]
     m <- length(ls)
-    yy <- (y[i - 1] - pitch / 2) + ((m - 1) / 2 - seq(0, m - 1)) * 0.24
-    data.frame(x = 10.05, y = yy, txt = ls)
-  }))
-  elb_idx <- which(nzchar(d$excl[2:k])) + 1
-  elbows <- if (length(elb_idx)) data.frame(x0 = 9.45, x1 = 9.95,
-               y = y[elb_idx - 1] - pitch / 2) else NULL
+    yc <- y[i - 1] - pitch / 2
+    bh <- 0.20 + 0.12 * (m - 1)              # half-height: line block + padding
+    list(box = data.frame(xmin = 10.05, xmax = 17.15, ymin = yc - bh, ymax = yc + bh),
+         txt = data.frame(x = 13.6,
+                          y = yc + ((m - 1) / 2 - seq(0, m - 1)) * 0.24, txt = ls),
+         arr = data.frame(x0 = 9.45, x1 = 9.98, y = yc))
+  })
+  ex_list <- ex_list[!vapply(ex_list, is.null, logical(1))]
+  exb <- if (length(ex_list)) do.call(rbind, lapply(ex_list, `[[`, "box")) else NULL
+  ext <- if (length(ex_list)) do.call(rbind, lapply(ex_list, `[[`, "txt")) else NULL
+  exa <- if (length(ex_list)) do.call(rbind, lapply(ex_list, `[[`, "arr")) else NULL
 
   box_fill <- ifelse(is_event, accent, fill)
   box_col  <- ifelse(is_event, accent, "grey45")
@@ -57,11 +64,15 @@ flow_col <- function(tag, subtitle, stages, accent, fill, n_max) {
                  aes(x = 4.7, xend = 4.7, y = y0, yend = y1),
                  arrow = arrow(length = unit(2.0, "mm"), type = "closed"),
                  linewidth = 0.55, colour = "grey30") +
-    { if (!is.null(ex)) geom_segment(data = elbows, aes(x = x0, xend = x1, y = y, yend = y),
-                                     linewidth = 0.4, colour = "grey45") } +
-    { if (!is.null(ex)) lapply(seq_len(nrow(ex)), function(i) {
-        annotate("text", x = ex$x[i], y = ex$y[i], label = ex$txt[i], hjust = 0,
-                 size = 2.2, colour = "grey25", family = "sans")
+    { if (!is.null(exb)) geom_rect(data = exb,
+                                   aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax),
+                                   fill = "#F6F4F1", colour = "grey55", linewidth = 0.4) } +
+    { if (!is.null(exa)) geom_segment(data = exa, aes(x = x0, xend = x1, y = y, yend = y),
+                                      arrow = arrow(length = unit(1.7, "mm"), type = "closed"),
+                                      linewidth = 0.4, colour = "grey45") } +
+    { if (!is.null(ext)) lapply(seq_len(nrow(ext)), function(i) {
+        annotate("text", x = ext$x[i], y = ext$y[i], label = ext$txt[i],
+                 size = 2.35, colour = "grey20", family = "sans")
       }) } +
     # panel tag chip + subtitle
     annotate("rect", xmin = 0, xmax = 0.66, ymin = n_max * pitch + hh + 0.40,
@@ -82,8 +93,8 @@ a <- flow_col("a", "CHARLS 2011 main analysis (discovery)",
            "Free of stroke at baseline", "\u2265 1 follow-up interview\nduring 2013\u20132023",
            "Complete covariates\n(main analysis set)", "Incident stroke\nduring 2011\u20132023"),
     n = c(11532, 11305, 11038, 10651, 8684, 852),
-    excl = c("", "\u2212227 age < 45", "\u2212267 baseline stroke", "\u2212387 lost to follow-up",
-             "\u22128 missing sex\n\u22121,959 missing covariates", ""),
+    excl = c("", "\u2212227 age < 45", "\u2212267 baseline\nstroke", "\u2212387 lost to\nfollow-up",
+             "\u22128 missing sex\n\u22121,959 missing\ncovariates", ""),
     stringsAsFactors = FALSE),
   accent = "#1F6FA8", fill = "#E9F1F8", n_max = 6)
 
@@ -93,7 +104,7 @@ b <- flow_col("b", "CHARLS 2015 landmark (internal validation)",
            "\u2265 1 interview 2018\u20132023,\ncomplete covariates (2015)",
            "Incident stroke\nduring 2015\u20132023"),
     n = c(7166, 6730, 6581, 706),
-    excl = c("", "\u2212436 stroke before 2015", "\u2212149 missing covariates", ""),
+    excl = c("", "\u2212436 stroke\nbefore 2015", "\u2212149 missing\ncovariates", ""),
     stringsAsFactors = FALSE),
   accent = "#2E8B74", fill = "#EAF5F0", n_max = 6)
 
@@ -104,8 +115,8 @@ c <- flow_col("c", "ELSA Wave 2 (external validation)",
            "Free of stroke at baseline", "\u2265 1 follow-up interview\nduring Waves 3\u201311",
            "Complete covariates\n(main analysis set)", "Incident stroke\nduring 2006\u20132023"),
     n = c(21679, 3428, 3349, 3062, 2577, 176),
-    excl = c("", "\u221218,251 no fasting blood\nor age < 50", "\u221279 baseline stroke",
-             "\u2212287 lost to follow-up", "\u2212485 missing covariates", ""),
+    excl = c("", "\u221218,251 no fasting\nblood or age < 50", "\u221279 baseline\nstroke",
+             "\u2212287 lost to\nfollow-up", "\u2212485 missing\ncovariates", ""),
     stringsAsFactors = FALSE),
   accent = "#9B5B73", fill = "#F7EEF2", n_max = 6)
 
