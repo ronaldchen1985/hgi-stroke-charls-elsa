@@ -141,10 +141,10 @@ rows_spec <- list(
   list("C-reactive protein, mg/L", "q", list(~ .x$crp, ~ .x$crp15, ~ .x$hscrp), 2),
   list("Hypertension, n (%)", "p", list(~ .x$htn, ~ .x$htn15, ~ .x$htn)),
   list("Diabetes, n (%)", "p", list(~ .x$dm, ~ .x$dm15, ~ .x$dm)),
-  list("Dyslipidaemia, n (%)", "p", list(~ .x$dyslip, ~ .x$dyslip15, ~ .x$dyslip)),
+  list("Dyslipidemia, n (%)", "p", list(~ .x$dyslip, ~ .x$dyslip15, ~ .x$dyslip)),
   list("Heart disease, n (%)", "p", list(~ .x$heart, ~ .x$heart15, ~ .x$heart)),
   list("HGIc", "m", list(~ .x$hgi, ~ .x$hgi_2015, ~ .x$hgi), 2),
-  list("Anaemia, n (%)d", "p", list(~ .x$anemia, NULL, NULL))
+  list("Anemia, n (%)d", "p", list(~ .x$anemia, NULL, NULL))
 )
 
 summ_one <- function(dat, sp, set_idx) {

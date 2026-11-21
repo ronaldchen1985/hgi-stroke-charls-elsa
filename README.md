@@ -76,4 +76,13 @@ Every number in the manuscript was machine-checked against the frozen result fil
 - Non-diabetic: n = 7,283; 681 events; model 3 HR 1.475 (1.147–1.896).
 - Pooled CHARLS 2011 + ELSA: HR 1.363 (1.136–1.635), I² = 0%.
 
+## 5. Notes
+
+- A few legacy pipeline scripts (notably the early CHARLS extraction and patch scripts)
+  contain Chinese-language comments; all executable code, variable names, and output
+  files are in English, and every script was syntax-checked under R 4.6.2 before release.
+- Path defaults at the top of some scripts point to local Windows folders (the ELSA
+  scripts use a Chinese folder name, `ELSA验证`); set `DATA_DIR` / `OUT_DIR` (ELSA:
+  `D` / `O`) to your own folders before running.
+
 Contact: Jing Tian, jingscorpio@163.com
