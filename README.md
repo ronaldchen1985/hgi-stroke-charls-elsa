@@ -47,6 +47,7 @@ verified without access to the raw data. Set the path variables at the top of ea
 | 13 | `CHARLS_HGI_W6_S13_treatment_strata_eGFR_early_20261120.R` | Diabetes-treatment strata; eGFR; early-event exclusion | Table S8 |
 | 14 | `CHARLS_HGI_W6_S14_landmark_FG_absolute_risk_Evalue_20261121.R` | Landmark Fine–Gray; absolute risk (Table S5); E-values; interaction power (MDE 1.81) | Table S5, S8 |
 | 15 | `CHARLS_HGI_W6_S15_equivalence_TyG_mutual_20261121.R` | Algebraic-equivalence verification (HGI+HbA1c ≡ FPG+HbA1c); TyG mutual adjustment; AIC ladder | Table S6 |
+| 16 | `CHARLS_HGI_W6_S17_five_group_middle_reference_20261122.R` | Five-group model with mid-range (P25–P75) reference; high- and low-tail contrasts (S17) | Table S8 |
 
 ### 3.2 ELSA external evaluation (`R_scripts/elsa/`)
 
