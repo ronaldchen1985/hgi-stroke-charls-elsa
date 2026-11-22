@@ -47,7 +47,9 @@ verified without access to the raw data. Set the path variables at the top of ea
 | 13 | `CHARLS_HGI_W6_S13_treatment_strata_eGFR_early_20261120.R` | Diabetes-treatment strata; eGFR; early-event exclusion | Table S8 |
 | 14 | `CHARLS_HGI_W6_S14_landmark_FG_absolute_risk_Evalue_20261121.R` | Landmark Fine–Gray; absolute risk (Table S5); E-values; interaction power (MDE 1.81) | Table S5, S8 |
 | 15 | `CHARLS_HGI_W6_S15_equivalence_TyG_mutual_20261121.R` | Algebraic-equivalence verification (HGI+HbA1c ≡ FPG+HbA1c); TyG mutual adjustment; AIC ladder | Table S6 |
-| 16 | `CHARLS_HGI_W6_S17_five_group_middle_reference_20261122.R` | Five-group model with mid-range (P25–P75) reference; high- and low-tail contrasts (S17) | Table S8 |
+| 16 | `CHARLS_HGI_W6_S16_Cindex_paired_test_20261121.R` | Harrell's C-indices of the model-3 base plus each marker; paired bootstrap vs HGI (B = 2,000) | Table S7 |
+| 17 | `CHARLS_HGI_W6_S17_five_group_middle_reference_20261122.R` | Five-group model with mid-range (P25–P75) reference; high- and low-tail contrasts (S17) | Table S8 |
+| 18 | `CHARLS_HGI_W6_S18_anemia_MCV_stratification_20261122.R` | Anemia etiology stratification by MCV: HGI shift, high-tail depletion, subtype-adjusted Cox, low-end carrier analysis (R4) | Table S8 |
 
 ### 3.2 ELSA external evaluation (`R_scripts/elsa/`)
 
@@ -61,6 +63,11 @@ verified without access to the raw data. Set the path variables at the top of ea
 
 - `CHARLS_ELSA_cross_cohort_meta.R`: fixed/random-effects pooling of the two independent sets
   (primary pooled estimate 1.363), the three sets, and the three non-diabetic sets (Fig. 2).
+- `CHARLS_ELSA_continuous_keytest_collinearity_20261122.R`: continuous-form (per-SD) key tests
+  in all three sets and the non-diabetic counterparts, numeric algebraic-equivalence
+  verification, VIF / condition-index diagnostics, and fragility indices (R1/R2; Table S8).
+- `CHARLS_ELSA_unified_absolute_cutoff_20261122.R`: unified absolute cut-off (HGI ≥ 0.5)
+  applied across all three sets, with fixed-effect pooling (S5; Table S8).
 
 ### 3.4 Figures and tables
 

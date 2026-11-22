@@ -77,7 +77,7 @@ fig2 <- ggplot() +
   scale_size_manual(values = c("M1 unadjusted" = 1.1, "M2 demographic" = 1.3,
                                "M3 fully adjusted" = 1.8), guide = "none") +
   scale_y_continuous(expand = c(0, 0)) +
-  coord_cartesian(ylim = c(0.5, 16.2), clip = "off") +
+  coord_cartesian(ylim = c(0.5, 16.6), clip = "off") +
   labs(x = "Hazard ratio, high HGI vs low HGI (log scale)", y = NULL) +
   theme_classic(base_size = 6.5, base_family = "sans") +
   theme(axis.text.y = element_blank(), axis.ticks.y = element_blank(),
@@ -86,13 +86,13 @@ fig2 <- ggplot() +
         axis.title.x = element_text(size = 6.2),
         plot.margin = margin(3, 4, 3, 3))
 
-# model key (direct labels; placed right of the x = 1 reference line)
+# model key (direct labels; own row above the HR column header to avoid overlap)
 fig2 <- fig2 +
-  annotate("point", x = c(1.6, 2.05, 2.55), y = 15.7,
+  annotate("point", x = c(1.6, 2.05, 2.55), y = 16.0,
            colour = unname(col_m), size = c(1.1, 1.3, 1.8)) +
-  annotate("text", x = c(1.7, 2.17, 2.7), y = 15.7, hjust = 0, size = 1.9,
+  annotate("text", x = c(1.7, 2.17, 2.7), y = 16.0, hjust = 0, size = 1.9,
            label = c("M1", "M2", "M3 fully adjusted")) +
-  annotate("text", x = 1.08, y = 15.7, hjust = 0, size = 1.9, label = "Adjustment:")
+  annotate("text", x = 1.08, y = 16.0, hjust = 0, size = 1.9, label = "Adjustment:")
 
 w_mm <- 183; h_mm <- 102
 svglite::svglite(file.path(OUT, "Fig2_crosscohort.svg"), width = w_mm / 25.4, height = h_mm / 25.4)
